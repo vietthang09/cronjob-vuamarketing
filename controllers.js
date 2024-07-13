@@ -1,7 +1,7 @@
 const db = require("./db");
 
 const resetAccounts = async () => {
-  var selectStatement = `UPDATE accounts set Total = 0, Conversions = 0 WHERE ID > 0`;
+  var selectStatement = `UPDATE accounts set Total = 0, Conversions = 0, Status = 1 WHERE ID > 0`;
   db.query(selectStatement, (err, result) => {
     if (err) {
       console.log(err);
