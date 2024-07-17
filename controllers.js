@@ -1,21 +1,33 @@
-const db = require("./db");
+var MongoClient = require("mongodb").MongoClient;
+var url = "mongodb://localhost:27017/";
 
 const resetAccounts = async () => {
-  var selectStatement = `UPDATE accounts set Total = 0, Conversions = 0, Status = 1 WHERE ID > 0`;
-  db.query(selectStatement, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-  });
+  try {
+    const client = await MongoClient.connect(url);
+    const db = client.db("vuasale");
+    const collection = db.collection("accounts");
+    const result = await collection.updateMany(
+      {},
+      { $set: { total: 0, conversions: 0, status: 1 } }
+    );
+    console.log(`${result.modifiedCount} document updated`);
+    client.close();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const resetUsers = async (req, res) => {
-  var selectStatement = `UPDATE users set Total = 0 WHERE ID > 0`;
-  db.query(selectStatement, (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-  });
+  try {
+    const client = await MongoClient.connect(url);
+    const db = client.db("vuasale");
+    const collection = db.collection("users");
+    const result = await collection.updateMany({}, { $set: { total: 0 } });
+    console.log(`${result.modifiedCount} document updated`);
+    client.close();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
