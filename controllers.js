@@ -8,7 +8,7 @@ const resetAccounts = async () => {
     const collection = db.collection("accounts");
     const result = await collection.updateMany(
       {},
-      { $set: { total: 0, conversions: 0, status: 1 } }
+      { $set: { total: 0, status: 1 } }
     );
     console.log(`${result.modifiedCount} document updated`);
     client.close();
