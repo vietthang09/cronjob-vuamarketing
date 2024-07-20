@@ -30,7 +30,21 @@ const resetUsers = async (req, res) => {
   }
 };
 
+const resetKeys = async (req, res) => {
+  try {
+    const client = await MongoClient.connect(url);
+    const db = client.db("vuasale");
+    const collection = db.collection("keys");
+    const result = await collection.updateMany({}, { $set: { total: 0 } });
+    console.log(`${result.modifiedCount} document updated`);
+    client.close();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   resetAccounts,
   resetUsers,
+  resetKeys,
 };

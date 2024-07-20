@@ -1,6 +1,6 @@
 var cron = require("node-cron");
 const moment = require("moment-timezone");
-const { resetAccounts, resetUsers } = require("./controllers");
+const { resetAccounts, resetUsers, resetKeys } = require("./controllers");
 
 cron.schedule("1 * * * * *", async () => {
   const startTanSuat = moment()
@@ -17,6 +17,7 @@ cron.schedule("1 * * * * *", async () => {
     console.log(`Start reset at ${currentTime}`);
     await resetAccounts();
     await resetUsers();
+    await resetKeys();
     console.log("Reseted");
   }
 });
